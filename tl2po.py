@@ -103,6 +103,8 @@ msgstr ""
 
 """)
     for s in originals:
+        if 'who' in s and s['who'] is not None:
+            out.write('# ' + s['who'] + '\n')
         out.write('#: ' + s['source'] + '\n')
         if occurrences[s['text']] > 1:
             out.write('msgctxt "' + (s['id'] or s['source']) + '"\n')
