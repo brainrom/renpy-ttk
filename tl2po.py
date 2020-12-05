@@ -69,6 +69,9 @@ def tl2po(projectpath, language, outfile=None):
                         # '' is special in gettext, don't attempt to translate it
                         continue
                     originals.append(s)
+    # sort primarily by string location (not by .rpy filename) because
+    # Ren'Py inserts engine strings in game/tl/xxx/common.rpy
+    originals.sort(key=lambda s: (s['source'].split(':')[0], int(s['source'].split(':')[1])))
 
     translated = []
     for curdir, subdirs, filenames in os.walk(os.path.join(projectpath,'game','tl',language)):
