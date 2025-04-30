@@ -2,12 +2,15 @@
 
 # Export Fossil repository so it can be pushed to GitLab/GitHub
 
-# Copyright (C) 2019  Sylvain Beucler
+# Copyright (C) 2019, 2025  Sylvain Beucler
 
 # Copying and distribution of this file, with or without modification,
 # are permitted in any medium without royalty provided the copyright
 # notice and this notice are preserved.  This file is offered as-is,
 # without any warranty.
+
+# NOTE: in 2025 we can just use 'fossil git export git-mirror/'
+#       but git commit IDs will change
 
 FOSSIL_CHECKOUT=$(dirname $(readlink -f $0))
 
