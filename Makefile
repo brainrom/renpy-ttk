@@ -1,6 +1,6 @@
 # Ren'Py Translator ToolKit - build system
 
-# Copyright (C) 2019  Sylvain Beucler
+# Copyright (C) 2019, 2025  Sylvain Beucler
 
 # Permission is hereby granted, free of charge, to any person
 # obtaining a copy of this software and associated documentation files
@@ -28,7 +28,7 @@ all:
 check: unittest functest
 
 unittest:
-	python -m unittest discover
+	python3 -m unittest discover
 
 functest:
 	which renpy.sh

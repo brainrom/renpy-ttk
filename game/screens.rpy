@@ -21,7 +21,7 @@
                 subprocess.Popen([ "open", directory ])
             else:
                 subprocess.Popen([ "xdg-open", directory ])
-        except Exception, e:
+        except Exception as e:
             print(e)
 
     def projects_directory():

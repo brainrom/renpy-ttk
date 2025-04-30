@@ -5,7 +5,7 @@ Tools for translators working on Ren'Py games, in particular PO format import/ex
 <https://www.beuc.net/renpy-ttk/>  
 <https://lemmasoft.renai.us/forums/viewtopic.php?f=32&t=55318>  
 
-<https://renpy.beuc.net/download/renpy-ttk-latest.zip>  
+<https://www.beuc.net/renpy-ttk/zip/1.9/renpy-ttk-1.9.zip>  
 [fossil](https://www.fossil-scm.org/) `clone https://www.beuc.net/renpy-ttk/ ...`  
 
 This is [free software](https://www.gnu.org/philosophy/free-sw.html):
@@ -18,9 +18,6 @@ see LICENSE for details.
 For feedback and bug reports, you can reach me through
 [Lemma Soft Forums](https://lemmasoft.renai.us/forums/viewtopic.php?f=32&t=55318)
 or [e-mail](mailto:beuc@beuc.net).
-
-If this program was useful to you, please support my work through
-[Patreon](https://www.beuc.net/donate/) :)
 
 
 ## Features / benefits
@@ -58,9 +55,13 @@ single click.
 
 ## Command line
 
-Add `renpy.sh` to your `PATH`:
+Run with `renpy.sh`:
 
-`PATH=.../renpy-7.3.5-sdk:$PATH renpy.sh .../renpy-ttk/ tl2pot ~/.../mygame/`
+`../renpy-8.x.y-sdk/renpy.sh .../renpy-ttk/ tl2pot ~/.../mygame/`
+
+or (system Python, but we still need Ren'Py):
+
+`PATH=.../renpy-8.x.y-sdk:$PATH ./tl2pot.py ~/.../mygame/`
 
 
 ## Workflow with your PO editor
@@ -87,11 +88,11 @@ Run `tl2po` on "The Question" and import the `.po` translation file.
 
 With gettext: use it as [compendium](https://www.gnu.org/software/gettext/manual/html_node/Using-Compendia.html#Using-Compendia):
 
-- new:       `msgmerge -C the_question.po /dev/null yourgame.pot -o yourgame-lang.po`
+- new translation file: `msgmerge -C the_question-lang.po /dev/null game.pot -o yourgame-lang.po`
 
-- update:    `msgmerge -C the_question.po --update yourgame-lang.po yourgame.pot`
+- update missing: `msgmerge -C the_question-lang.po --update yourgame-lang.po game.pot`
 
-- overwrite: `msgcat --use-first -o yourgame-lang-updated.po the_question.po yourgame-lang.po # + update as above`
+- overwrite: `msgcat --use-first -o yourgame-lang-updated.po the_question-lang.po yourgame-lang.po` + update as above + restore header
 
 With Poedit: use it for Translation Memory:
 
@@ -103,16 +104,13 @@ Note: Poedit ignores very short strings.
 
 ### Push your translations back to Ren'Py
 
-Compile your `.po` to `.mo`.
-
-With gettext: `msgfmt yourgame-lang.po -o yourgame-lang.mo`
-
-With Poedit: done automatically on saving, or File > Compile to MO...
-
 Run `mo2tl`. This will inject the translations in your `tl/*.rpy` files. Be sure to select the right language.
 
-Note: `mot2tl` can compile to `.mo` for you if `msgfmt` is in the
-`PATH` (i.e. under GNU/Linux).
+Note: if you specify a .po file, `mot2tl` will convert it to `.mo` for you.
+
+Manually with gettext: `msgfmt yourgame-lang.po -o yourgame-lang.mo`
+
+Manually with Poedit: done automatically on saving, or File > Compile to MO...
 
 
 ## Caveats

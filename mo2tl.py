@@ -1,8 +1,8 @@
-#!/usr/bin/python
+#!/usr/bin/python3
 
 # Convert .mo compiled catalog to .rpy translation blocks and strings
 
-# Copyright (C) 2019, 2020  Sylvain Beucler
+# Copyright (C) 2019, 2020, 2025  Sylvain Beucler
 
 # Permission is hereby granted, free of charge, to any person
 # obtaining a copy of this software and associated documentation files
@@ -23,7 +23,6 @@
 # OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION
 # WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 
-from __future__ import print_function
 import sys, os, fnmatch, io
 import re
 import subprocess, shutil
@@ -89,14 +88,14 @@ def c_escape(s):
     '''
     return ''.join([ESCAPE_CHARS.get(c, c) for c in s])
 
-def ugettext_nometadata(translations, lookup):
+def gettext_nometadata(translations, lookup):
     '''
-    Wrapper around translations.ugettext() to avoid returning metadata
+    Wrapper around translations.gettext() to avoid returning metadata
     as the translation for the empty string
     '''
     if lookup == '':
         return None
-    return translations.ugettext(lookup)
+    return translations.gettext(lookup)
 
 def mo2tl(projectpath, mofile, renpy_target_language):
     if not re.match('^[a-z_]+$', renpy_target_language, re.IGNORECASE):
@@ -136,7 +135,7 @@ def mo2tl(projectpath, mofile, renpy_target_language):
 
     # Setup gettext directory structure
     localedir = tempfile.mkdtemp()
-    if not os.environ.has_key('LANG'):
+    if not 'LANG' in os.environ:
         os.environ['LANG'] = 'en_US.UTF-8'
     msgdir = os.path.join(localedir,
                           os.environ['LANG'],
@@ -152,7 +151,7 @@ def mo2tl(projectpath, mofile, renpy_target_language):
     translations = gettext.translation('game', localedir)
     class NoneOnMissingTranslation:
         @staticmethod
-        def ugettext(str):
+        def gettext(str):
             return None
     translations.add_fallback(NoneOnMissingTranslation)
 
@@ -196,11 +195,11 @@ def mo2tl(projectpath, mofile, renpy_target_language):
                                 msgstr = rttk.tlparser.extract_base_string(line)['text']
                                 lookup = c_unescape(msgstr)
                                 lookup = msgctxt+'\x04'+lookup
-                                translation = ugettext_nometadata(translations, lookup)
+                                translation = gettext_nometadata(translations, lookup)
                                 if translation is None:
                                         # no match with context, try without
                                         lookup = c_unescape(msgstr)
-                                        translation = ugettext_nometadata(translations, lookup)
+                                        translation = gettext_nometadata(translations, lookup)
                                 if translation is not None:
                                     translation = c_escape(translation)
                                 msgctxt = ''
@@ -215,8 +214,8 @@ def mo2tl(projectpath, mofile, renpy_target_language):
                             out.write(line)
                     else:
                         # dialog block
-                        if not o_blocks_index.has_key(msgid):
-                            obsolete = u"# OBSOLETE\n"
+                        if not msgid in o_blocks_index:
+                            obsolete = "# OBSOLETE\n"
                             if last_comment != obsolete:
                                 out.write(obsolete)
                         out.write(line)
@@ -251,11 +250,11 @@ def mo2tl(projectpath, mofile, renpy_target_language):
                                     msgctxt = msgid
                                     lookup = c_unescape(msgstr)
                                     lookup = msgctxt+'\x04'+lookup
-                                    translation = ugettext_nometadata(translations, lookup)
+                                    translation = gettext_nometadata(translations, lookup)
                                     if translation is None:
                                         # no match with context, try without
                                         lookup = c_unescape(msgstr)
-                                        translation = ugettext_nometadata(translations, lookup)
+                                        translation = gettext_nometadata(translations, lookup)
                                     if translation is not None:
                                         translation = c_escape(translation)
                                         line = line[:s['start']]+translation+line[s['end']:]

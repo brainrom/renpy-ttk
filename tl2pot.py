@@ -1,8 +1,8 @@
-#!/usr/bin/python
+#!/usr/bin/python3
 
 # Convert .rpy translation blocks and strings to .pot gettext template
 
-# Copyright (C) 2019, 2020  Sylvain Beucler
+# Copyright (C) 2019, 2020, 2025  Sylvain Beucler
 
 # Permission is hereby granted, free of charge, to any person
 # obtaining a copy of this software and associated documentation files
@@ -23,7 +23,6 @@
 # OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION
 # WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 
-from __future__ import print_function
 import sys, os, fnmatch, io
 import re
 import shutil
@@ -68,7 +67,7 @@ def tl2pot(projectpath, outfile='game.pot'):
         occurrences[s['text']] = occurrences.get(s['text'], 0) + 1
 
     out = io.open(outfile, 'w', encoding='utf-8')
-    out.write(ur"""msgid ""
+    out.write(r"""msgid ""
 msgstr ""
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -76,12 +75,12 @@ msgstr ""
 
 """)
     for s in strings:
-        out.write(u'#: ' + s['source'] + u'\n')
+        out.write('#: ' + s['source'] + '\n')
         if occurrences[s['text']] > 1:
-            out.write(u'msgctxt "' + (s['id'] or s['source']) + u'"\n')
-        out.write(u'msgid "' + s['text'] + u'"\n')
-        out.write(u'msgstr ""\n')
-        out.write(u'\n')
+            out.write('msgctxt "' + (s['id'] or s['source']) + '"\n')
+        out.write('msgid "' + s['text'] + '"\n')
+        out.write('msgstr ""\n')
+        out.write('\n')
     print("Wrote '" + outfile + "'.")
 
     try:
