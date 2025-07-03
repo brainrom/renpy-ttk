@@ -21,6 +21,11 @@
 
 init python:
 
+    try:
+        import _renpytfd
+    except Exception:
+        _renpytfd = None
+
     def choose_file(path):
         """
         Pops up a file chooser.
@@ -35,42 +40,14 @@ init python:
             except:
                 default_path = os.path.abspath(config.renpy_base)
 
-        if EasyDialogs:
-
-            choice = EasyDialogs.AskFileForOpen(defaultLocation=default_path, wanted=unicode, typeList=[('Message Catalogs (*.po,*.mo)', '*.po;*.mo'), ('All Files (*.*)', '*.*')])
-
-            if choice is not None:
-                path = choice
-            else:
-                path = None
-
-        else:
-
-            try:
-
-                cmd = [ "/usr/bin/python", os.path.join(config.gamedir, "tkaskopenfilename.py"), renpy.fsencode(default_path) ]
-
-                p = subprocess.Popen(cmd, stdout=subprocess.PIPE)
-                choice = p.stdout.read()
-                code = p.wait()
-
-            except:
-                import traceback
-                traceback.print_exc()
-
-                code = 0
-                choice = ""
-                path = None
-
-                interface.error(_("Ren'Py was unable to run python with tkinter to choose the directory. Please install the python-tk or tkinter package."), label=None)
-
-            if code:
-                interface.error(_("Ren'Py was unable to run python with tkinter to choose the directory. Please install the python-tk or tkinter package."), label=None)
-                pass
-
-            elif choice:
-                path = choice.decode("utf-8")
-
+        if _renpytfd:
+           path = _renpytfd.openFileDialog(
+               __("Select message catalog"),
+               default_path,
+               ["*.po *.mo"],
+               __("Message Catalogs (*.po,*.mo)"),
+               False,
+           )
         is_default = False
 
         # Path being None or "" means nothing was selected.
