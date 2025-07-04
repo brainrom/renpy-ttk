@@ -5,7 +5,7 @@ Tools for translators working on Ren'Py games, in particular PO format import/ex
 <https://www.beuc.net/renpy-ttk/>  
 <https://lemmasoft.renai.us/forums/viewtopic.php?f=32&t=55318>  
 
-<https://www.beuc.net/renpy-ttk/zip/1.9/renpy-ttk-1.9.zip>  
+<https://www.beuc.net/renpy-ttk/zip/1.10/renpy-ttk-1.10.zip>  
 [fossil](https://www.fossil-scm.org/) `clone https://www.beuc.net/renpy-ttk/ ...`  
 
 This is [free software](https://www.gnu.org/philosophy/free-sw.html):
