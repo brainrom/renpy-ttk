@@ -44,7 +44,7 @@ init python:
            path = _renpytfd.openFileDialog(
                __("Select message catalog"),
                default_path,
-               ["*.po *.mo"],
+               ["*.po", "*.mo"],
                __("Message Catalogs (*.po,*.mo)"),
                False,
            )

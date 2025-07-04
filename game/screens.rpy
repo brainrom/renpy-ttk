@@ -1,9 +1,4 @@
 ﻿init -1  python:
-    if renpy.windows:
-        import EasyDialogsWin as EasyDialogs
-    else:
-        EasyDialogs = None
-
     import subprocess
     import glob
     import os
